@@ -29,6 +29,7 @@ class StupidRouter
 
         }
 
+        header('HTTP/1.0 404 Not Found');
         $this->includeAndDie(BASE_PATH . 'views/errors/404.php');
     }
 
