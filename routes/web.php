@@ -4,10 +4,14 @@ use App\Core\Routing\Route;
 
 Route::get('/null');
 
-Route::add(['get', 'post'], '/', function(){
+Route::add(['get', 'post'], '/abc', function(){
     echo 'welcome';
 });
 
-Route::post('/saveForm', function(){
-    echo 'form saved!';
+Route::get('/a', function(){
+    echo 'form a!';
+});
+
+Route::post('/b', function(){
+    echo 'form b!';
 });
