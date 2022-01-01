@@ -9,6 +9,7 @@ class Request
     private $agent;
     private $ip;
     private $params;
+    private $uri;
 
     public function __get($propertyName)
     {
@@ -26,6 +27,7 @@ class Request
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->ip = $_SERVER['REMOTE_ADDR'];
         $this->agent = $_SERVER['HTTP_USER_AGENT'];
+        $this->uri = strtok($_SERVER['REQUEST_URI'], '?');
     }
 
     public function method()
@@ -46,6 +48,11 @@ class Request
     public function params()
     {
         return $this->params;
+    }
+
+    public function uri()
+    {
+        return $this->uri;
     }
 
     public function input($key)
