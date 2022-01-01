@@ -5,9 +5,64 @@ namespace App\Core;
 class Request
 {
 
+    private $method;
+    private $agent;
+    private $ip;
+    private $params;
+
+    public function __get($propertyName)
+    {
+        return $this->params[$propertyName] ?? null;
+    }
+
+    // public function __set($key, $value)
+    // {
+    //     $this->params[$key] = $value; 
+    // }
+
     public function __Construct()
     {
-        echo 'this is request class!';
+        $this->params = $_REQUEST;
+        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->ip = $_SERVER['REMOTE_ADDR'];
+        $this->agent = $_SERVER['HTTP_USER_AGENT'];
+    }
+
+    public function method()
+    {
+        return $this->method;
+    }
+
+    public function agent()
+    {
+        return $this->agent;
+    }
+
+    public function ip()
+    {
+        return $this->ip;
+    }
+
+    public function params()
+    {
+        return $this->params;
+    }
+
+    public function input($key)
+    {
+        return $this->params[$key] ?? null;
+    }
+
+    public function isset($key)
+    {
+        return isset($this->params[$key]);
+    }
+
+    public function redirect($route)
+    {
+        header('Location: ' . site_url($route));
+        
+        die();
     }
 
 }
