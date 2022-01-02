@@ -46,3 +46,13 @@ if (!function_exists('var_print')) {
         exit();
     }
 }
+
+if(!function_exists('view')){
+
+    function view(string $path){ 
+        $path = str_replace('.', '/', $path);
+
+        include_once BASE_PATH . "views/$path.php";
+    }
+
+}
