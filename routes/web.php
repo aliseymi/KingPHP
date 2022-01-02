@@ -1,6 +1,8 @@
 <?php
 
 use App\Core\Routing\Route;
+use App\Middleware\BlockFirefox;
+use App\Middleware\BlockIE;
 
 Route::get('/', 'HomeController@index');
 

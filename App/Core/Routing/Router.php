@@ -4,6 +4,7 @@ namespace App\Core\Routing;
 
 use App\Core\Request;
 use App\Core\Routing\Route;
+use App\Middleware\Contract\MiddlewareInterface;
 use Exception;
 
 class Router
@@ -18,6 +19,7 @@ class Router
         $this->request = new Request();
         $this->routes = Route::routes();
         $this->current_route = $this->findRoute($this->request) ?? null;
+        $this->run_route_middleware();
     }
 
     public function findRoute(Request $request)
@@ -43,6 +45,26 @@ class Router
             $this->dispatch404();
 
         $this->dispatch($this->current_route);
+    }
+
+    private function run_route_middleware()
+    {
+        $middleware = $this->current_route['middleware'];
+
+        foreach ($middleware as $middleware_class) {
+            
+            if(!class_exists($middleware_class)){
+                throw new Exception("Class $middleware_class does not exist!");
+            }
+
+            $middleware_obj = new $middleware_class;
+
+            if(!is_subclass_of($middleware_obj, MiddlewareInterface::class)){
+                throw new Exception("Class $middleware_class should implement \App\Middleware\Contract\MiddlewareInterface");
+            }
+
+            $middleware_obj->handle();
+        }
     }
 
     private function invalidRequest(Request $request)
