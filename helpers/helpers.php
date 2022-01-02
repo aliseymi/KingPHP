@@ -49,8 +49,10 @@ if (!function_exists('var_print')) {
 
 if(!function_exists('view')){
 
-    function view(string $path){ 
+    function view(string $path, array $data = []){ 
         $path = str_replace('.', '/', $path);
+
+        extract($data);
 
         include_once BASE_PATH . "views/$path.php";
     }
