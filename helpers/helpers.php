@@ -58,3 +58,16 @@ if(!function_exists('view')){
     }
 
 }
+
+if(!function_exists('strContains')){
+
+    function strContains(string $str, string $needle, $case_sensitive = 0){
+        if($case_sensitive)
+            $pos = strpos($str, $needle);
+        else
+            $pos = stripos($str, $needle);
+
+        return ($pos !== false) ? true : false;
+    }
+
+}

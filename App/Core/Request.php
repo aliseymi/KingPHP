@@ -9,6 +9,7 @@ class Request
     private $agent;
     private $ip;
     private $params;
+    private $route_params;
     private $uri;
 
     public function __get($propertyName)
@@ -70,6 +71,21 @@ class Request
         header('Location: ' . site_url($route));
         
         die();
+    }
+
+    public function add_route_param($key, $value)
+    {
+        $this->route_params[$key] = $value;
+    }
+
+    public function get_route_param($key)
+    {
+        return $this->route_params[$key];
+    }
+
+    public function get_route_params()
+    {
+        return $this->route_params;
     }
 
 }

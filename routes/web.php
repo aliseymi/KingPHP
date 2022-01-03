@@ -21,3 +21,5 @@ Route::post('/b', function(){
 Route::post('/c', function(){
     echo 'form c!';
 });
+
+Route::get('/post/{slug}/comment/{comment_id}', 'PostController@single');
