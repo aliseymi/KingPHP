@@ -11,9 +11,18 @@ abstract class BaseModel implements CrudInterface
     protected $pageSize = 10;
     protected $attributes = [];
 
-    public function __get($propertyName)
+    public function __get($property)
     {
-        return $this->getAttribute($propertyName);
+        return $this->getAttribute($property);
+    }
+
+    public function __set($property, $value)
+    {
+        if(!array_key_exists($property, $this->attributes)){
+            return null;
+        }
+
+        $this->attributes[$property] = $value;
     }
 
     public function getAttribute($key)

@@ -5,6 +5,7 @@ namespace App\Models\Contracts;
 use Exception;
 use PDO;
 use Medoo\Medoo;
+use stdClass;
 
 class MysqlBaseModel extends BaseModel
 {
@@ -65,6 +66,9 @@ class MysqlBaseModel extends BaseModel
     {
         $result = $this->connection->get($this->table, '*', [$this->primaryKey => $id]);
 
+        if(is_null($result))
+            return new stdClass;
+
         foreach($result as $col => $val)
             $this->attributes[$col] = $val;
 
@@ -122,6 +126,21 @@ class MysqlBaseModel extends BaseModel
     public function avg(string $column, array $where)
     {
         return $this->connection->avg($this->table, $column, $where);
+    }
+
+    public function remove(): int
+    {
+        $record_id = $this->{$this->primaryKey};
+        return $this->delete([$this->primaryKey => $record_id]);
+    }
+
+    public function save(): object
+    {
+        $record_id = $this->{$this->primaryKey};
+
+        $this->update($this->attributes, [$this->primaryKey => $record_id]);
+
+        return $this->find($record_id);
     }
 
     private function convertToArrayOfObjects(array $array)
