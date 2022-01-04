@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\Contracts\JsonBaseModel;
 
-class User extends JsonBaseModel
+class Product extends JsonBaseModel
 {
-    protected $table = 'users';
+    protected $table = 'products';
 }
