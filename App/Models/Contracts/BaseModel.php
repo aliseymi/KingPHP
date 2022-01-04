@@ -11,7 +11,12 @@ abstract class BaseModel implements CrudInterface
     protected $pageSize = 10;
     protected $attributes = [];
 
-    protected function getAttribute($key)
+    public function __get($propertyName)
+    {
+        return $this->getAttribute($propertyName);
+    }
+
+    public function getAttribute($key)
     {
 
         if(!$key || !array_key_exists($key, $this->attributes)){
@@ -19,6 +24,11 @@ abstract class BaseModel implements CrudInterface
         }
 
         return $this->attributes[$key];
+    }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
 }
