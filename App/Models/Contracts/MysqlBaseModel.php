@@ -59,28 +59,70 @@ class MysqlBaseModel extends BaseModel
     # Read (select) single | multiple
     public function find($id): object
     {
-        return (object)[];
+        $result = $this->connection->get($this->table, '*', [$this->primaryKey => $id]);
+        return (object)$result;
     }
 
     public function get(array $columns, array $where): array
     {
-        return [];
+        $records = $this->connection->select($this->table, $columns, $where); 
+
+        return $this->convertToArrayOfObjects($records);
     }
 
     public function getAll(): array
     {
-        return [];
+        $records = $this->connection->select($this->table, '*');
+
+        return $this->convertToArrayOfObjects($records);
     }
 
     # Update
-    public function update(array $data, $where): int
+    public function update(array $data, array $where): int
     {
-        return 1;
+        $result = $this->connection->update($this->table, $data, $where);
+        return $result->rowCount();
     }
 
     # Delete 
     public function delete(array $where): int
     {
-        return 1;
+        $result = $this->connection->delete($this->table, $where);
+        return $result->rowCount();
+    }
+
+    public function count(array $where)
+    {
+        return $this->connection->count($this->table, $where);
+    }
+
+    public function sum(string $column, array $where)
+    {
+        return $this->connection->sum($this->table, $column, $where);
+    }
+
+    public function max(string $column, array $where)
+    {
+        return $this->connection->max($this->table, $column, $where);
+    }
+
+    public function min(string $column, array $where)
+    {
+        return $this->connection->min($this->table, $column, $where);
+    }
+
+    public function avg(string $column, array $where)
+    {
+        return $this->connection->avg($this->table, $column, $where);
+    }
+
+    private function convertToArrayOfObjects(array $array)
+    {
+        $array_of_objects = [];
+        foreach($array as $record){
+            $array_of_objects[] = (object)$record;
+        }
+
+        return $array_of_objects;
     }
 }
